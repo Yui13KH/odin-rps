@@ -1,74 +1,69 @@
-function generateRandomChoice() {
-    let randomChoice = Math.floor(Math.random() * 3) + 1;
-    switch (randomChoice) {
-      case 1:
-        return "rock";
-      case 2:
-        return "paper";
-      case 3:
-        return "scissor";
-    }
-  }
-  
-  function validateNumberInput(input) {
-    return !isNaN(input) && input > 0;
-  }
-  
-  function getNumberOfTimesToPlay() {
-    let numberOfTimesToPlay = prompt("How many times do you want to play?");
-    while (!validateNumberInput(numberOfTimesToPlay)) {
-      numberOfTimesToPlay = prompt("Please enter a valid number greater than 0.");
-    }
-    return parseInt(numberOfTimesToPlay);
-  }
-  
-  function validatePlayerChoice(input) {
-    const validChoices = ["rock", "paper", "scissor"];
-    return validChoices.includes(input.toLowerCase());
-  }
-  
-  function getPlayerChoice() {
-    let playerChoice = prompt("Choose rock, paper, or scissor").toLowerCase();
-    while (!validatePlayerChoice(playerChoice)) {
-      playerChoice = prompt("Invalid choice! Please choose rock, paper, or scissor.");
-    }
-    return playerChoice;
-  }
-  
-  function playGame() {
-    let numberOfTimesToPlay = getNumberOfTimesToPlay();
-    let playerScore = 0;
-    let computerScore = 0;
-  
-    for (let i = 0; i < numberOfTimesToPlay; i++) {
-      let playerChoice = getPlayerChoice();
-      let computerChoice = generateRandomChoice();
-  
-      console.log(`Player chose ${playerChoice} and the computer chose ${computerChoice}`);
-  
-      if (playerChoice === computerChoice) {
-        console.log("It was a draw");
-      } else if (
-        (playerChoice === "rock" && computerChoice === "scissor") ||
-        (playerChoice === "paper" && computerChoice === "rock") ||
-        (playerChoice === "scissor" && computerChoice === "paper")
-      ) {
-        console.log("You won");
-        playerScore++;
-      } else {
-        console.log("You lost");
-        computerScore++;
-      }
-    }
-  
-    if (playerScore > computerScore) {
-      console.log(`${playerScore} to ${computerScore} You won the game`);
-    } else if (playerScore < computerScore) {
-      console.log(`${computerScore} to ${playerScore} You lost the game`);
-    } else {
-      console.log("It was a draw");
-    }
-  }
-  
-  playGame();
+// okay so , no auto complete
 
+// get user input
+// generate computer input/choice -> connect them to values
+
+//compare them
+// make user score and computer score , and compare and then tell who won or draw
+
+function getUserInput(usrInput) {
+  usrInput = prompt("Choose: rock , paper , sicssor");
+  return usrInput;
+}
+
+function generateComputerChoice() {
+  pcInput = Math.floor(Math.random() * 3) + 1;
+  let pcChoice;
+  switch (pcInput) {
+    case 1:
+      pcChoice = "rock";
+      break;
+    case 2:
+      pcChoice = "paper";
+      break;
+    case 3:
+      pcChoice = "scissor";
+      break;
+  }
+
+  return pcChoice;
+}
+
+function round(usrInput, pcChoice) {
+  let usrScore = 0;
+  let pcScore = 0;
+  for (let i = 1; i < 3; i++) {
+    if (
+      (usrInput.toLowerCase() == "rock" && pcChoice == "scissor") ||
+      (usrInput.toLowerCase() == "paper" && pcChoice == "rock") ||
+      (usrInput.toLowerCase() == "scissor" && pcChoice == "paper")
+    ) {
+      usrScore++;
+    } else {
+      pcScore++;
+    }
+    console.log(`Round ${i + 1}: User: ${usrInput}, PC: ${pcChoice}`);
+    console.log(`Current Score: User ${usrScore} - PC ${pcScore}`);
+
+    usrInput = getUserInput(); // for next round
+    pcChoice = generateComputerChoice();
+  }
+
+  console.log("Final Score:");
+  console.log(`User: ${usrScore} vs Pc: ${pcScore}`);
+  if (usrScore > pcScore) {
+    console.log("You Win");
+  } else if (usrScore < pcScore) {
+    console.log("Computer Wins");
+  } else {
+    console.log("Its a draw");
+  }
+}
+
+function playGame() { // just a wrapper function cuz idk how to make it get first input
+  const usrInput = getUserInput();
+  const pcChoice = generateComputerChoice();
+  round(usrInput, pcChoice);
+}
+
+playGame();
